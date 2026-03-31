@@ -12,6 +12,16 @@ class Manager:
        
         self.load_data()
 
+    def get_apartment_costs(self, apartment_key: str,  year: int = None, month: int = None):
+        if apartment_key not in self.apartments:
+            return None 
+        costs= 0 
+
+        for bill in self.bills:
+            if bill.apartment == apartment_key and bill.settlement_year == year and bill.settlement_month == month:
+                costs  += bill.amount_pln
+        return costs
+
     def load_data(self):
         self.apartments = Apartment.from_json_file(self.parameters.apartments_json_path)
         self.tenants = Tenant.from_json_file(self.parameters.tenants_json_path)
